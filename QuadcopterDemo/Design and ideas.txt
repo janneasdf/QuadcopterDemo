@@ -1,0 +1,10 @@
+Assets needed
+  lighting
+  skybox
+
+Work:
+  Quadcopter movement (Janne)
+  3D models (Miro)
+  Minimap (Ossi)
+  Level Design (All?)
+  
