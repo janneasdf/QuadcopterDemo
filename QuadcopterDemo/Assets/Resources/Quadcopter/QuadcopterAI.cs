@@ -85,8 +85,6 @@ public class QuadcopterAI : MonoBehaviour
 		direction.y = 0.0f;
 		if (direction.magnitude < catchDistance)
 		{
-			// Alert the guards
-			gameLogic.AlertGuards();
 			flightState = FlightState.HOVER;
 			return;
 		}
@@ -136,6 +134,7 @@ public class QuadcopterAI : MonoBehaviour
 		{
 			flightState = FlightState.IN_PURSUIT;
 			intruderSighted = false;
+			gameLogic.AlertGuards();
 		}
     }
 
@@ -143,12 +142,14 @@ public class QuadcopterAI : MonoBehaviour
 	{
 		if (other.gameObject.tag == "Player")
 		{
-			Ray ray = new Ray(transform.position, 
-			                  (player.transform.position - transform.position).normalized);
+			Vector3 rayDirection = (player.transform.position - transform.position).normalized;
+			Ray ray = new Ray(transform.position + rayDirection, 
+			                  rayDirection);
 			RaycastHit hit;
 			Physics.Raycast(ray, out hit);
-			//if (hit.collider.gameObject.tag == "Player")	TODO: doesn't work
+			if (hit.collider.gameObject.tag == "Player")
 			{
+				Debug.Log("spotted!");
 				intruderSighted = true;
 			}
 		}
