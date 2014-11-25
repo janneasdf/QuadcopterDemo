@@ -12,8 +12,8 @@ SceneSettings:
     backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
-  m_Fog: 0
-  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: .0955882072, g: .0892625153, b: .0892625153, a: 1}
   m_FogMode: 3
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
@@ -318,7 +318,7 @@ Transform:
   - {fileID: 860278020}
   - {fileID: 873171262}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &92953170
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ Transform:
   - {fileID: 776628830}
   - {fileID: 1332505813}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!114 &98349810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1212,7 +1212,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 462498063}
   m_LocalRotation: {x: .146334812, y: .353891492, z: -.0561641492, w: .92205894}
-  m_LocalPosition: {x: -3.25357032, y: 4.96559381, z: -42.7556686}
+  m_LocalPosition: {x: -.225177765, y: 8.95309162, z: -12.5519447}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1925362921}
@@ -3749,6 +3749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 552803627}
+  height: 10
 --- !u!20 &1715271444
 Camera:
   m_ObjectHideFlags: 0
@@ -3757,7 +3758,7 @@ Camera:
   m_GameObject: {fileID: 1715271442}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -3791,7 +3792,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1925362921}
+  m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!1 &1726676599
 GameObject:
@@ -4142,13 +4143,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1925362919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.35227776, y: 6.8613019, z: 25.1537819}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462498064}
-  - {fileID: 1715271445}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1964767809
 GameObject:
   m_ObjectHideFlags: 0
