@@ -3,6 +3,14 @@ using System.Collections;
 
 public class Menu : MonoBehaviour 
 {
+    Texture logo;
+
+    void Start()
+    {
+        logo = (Texture)Resources.Load("GUI/Logo", typeof(Texture));
+        Debug.Log(logo);
+    }
+
     void OnGUI()
     {
         DrawMenu();
@@ -22,12 +30,14 @@ public class Menu : MonoBehaviour
 
         GUI.backgroundColor = Color.clear;
 
-        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 - height - margin, width, height), "Play", style))
+        GUI.DrawTexture(new Rect(Screen.width / 2 - logo.width + 100, Screen.height / 2 - logo.height / 2, 400, 400), logo);
+
+        if (GUI.Button(new Rect(Screen.width / 2 - width / 2 + 200, Screen.height / 2 - height - margin, width, height), "Play", style))
 		{
 			GameObject.FindWithTag("GameController").GetComponent<GameLogic>().StartGame();
             gameObject.SetActive(false);
 		}
-        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + margin, width, height), "Exit", style))
+        if (GUI.Button(new Rect(Screen.width / 2 - width / 2 + 200, Screen.height / 2 + margin, width, height), "Exit", style))
             Application.Quit();
     }
 }
