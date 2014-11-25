@@ -85,8 +85,8 @@ public class QuadcopterAI : MonoBehaviour
 		direction.y = 0.0f;
 		if (direction.magnitude < catchDistance)
 		{
-			// Catch the player
-			gameLogic.EndGame();
+			// Alert the guards
+			gameLogic.AlertGuards();
 			flightState = FlightState.HOVER;
 			return;
 		}
