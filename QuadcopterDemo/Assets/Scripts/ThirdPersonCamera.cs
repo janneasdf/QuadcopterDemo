@@ -12,10 +12,6 @@ public class ThirdPersonCamera : MonoBehaviour {
     private Vector3 lookDirection;
     private Vector3 velocityCamSmooth = Vector3.zero;
     private float camSmoothDampTime = 0.1f;
-
-	void Start () {
-	
-	}
 	
 	void LateUpdate () {
         Vector3 characterOffset = target.position + new Vector3(0, distanceUp, 0);

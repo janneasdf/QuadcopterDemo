@@ -4,77 +4,78 @@ using System.Collections;
 public enum GameState
 {
 	IN_MENU = 0,
-	PLAYING
+	PLAYING,
+    VICTORY,
+    BUSTED
 }
 
-public class GameLogic : MonoBehaviour {
+public class GameLogic : MonoBehaviour 
+{
+    public ThirdPersonController character;
 
-	public GameState gameState = GameState.IN_MENU;
-
-	public float gameEndDuration;	// ending duration in seconds
-
+    private GameState _gameState;
 	private Transform goal;
 	private Transform item;
-	private bool itemCollected = false;
-	private bool gameEnding = false;
-	private bool gameWon = false;
-	private float sinceEnded = 0.0f;
 	private GameObject player;
-	private DirectionArrow directionArrow;
+    private DirectionArrow directionArrow;
+    private bool itemCollected = false;
+
+    public GameState gameState
+    {
+        get { return _gameState; }
+        set
+        {
+            _gameState = value;
+            character.isControllable = _gameState == GameState.PLAYING;
+        }
+    }
 
 	public void StartGame()
 	{
 		gameState = GameState.PLAYING;
 		directionArrow.target = item;
-
-	}
-
-	public void EndGame(bool won)
-	{
-		if (gameEnding)
-			return;
-		Debug.Log("Game ending");
-		sinceEnded = 0.0f;
-		gameEnding = true;
-		gameWon = won;
 	}
 
 	public void CollectItem()
 	{
 		itemCollected = true;
 		directionArrow.target = goal;
+        Transform wrench = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1/Bip001 Neck/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand/wrench");
+        Transform tupla = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1/Bip001 Neck/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand/Tupla");
+        wrench.renderer.enabled = false;
+        tupla.renderer.enabled = true;
 	}
 
 	public void AlertGuards()
 	{
 		Debug.Log("Guards have been alerted!");
-		EndGame(false);
+        EndGame(false);
 	}
 
-	// Use this for initialization
-	void Start () {
+    void EndGame(bool won)
+    {
+        if (gameState != GameState.PLAYING)
+            return;
+        if (won)
+            gameState = GameState.VICTORY;
+        else
+            gameState = GameState.BUSTED;
+        directionArrow.target = null;
+    }
+
+    void Start()
+    {
+        gameState = GameState.IN_MENU;
 		goal = GameObject.FindWithTag(Tags.goal).transform;
 		player = GameObject.FindWithTag(Tags.player);
 		directionArrow = GameObject.FindWithTag(Tags.directionArrow).GetComponent<DirectionArrow>();
 		item = GameObject.FindWithTag(Tags.collectable).transform;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if (gameState == GameState.PLAYING)
 		{
-			if (gameEnding)
-			{
-				sinceEnded += Time.deltaTime;
-				if (sinceEnded > gameEndDuration)
-				{
-					ReturnToMenu();
-				}
-			}
-			else
-			{
-				CheckPlayerWin(); 
-			}
+		    CheckPlayerWin(); 
 		}
 	}
 
@@ -85,41 +86,9 @@ public class GameLogic : MonoBehaviour {
 		Vector3 delta = (goal.position - player.transform.position);
 		delta.y = 0;
 		if (delta.magnitude < 2.0f)
-		{
-			EndGame(true);
+        {
+            Debug.Log("Victory");
+            EndGame(true);
 		}
 	}
-
-	void ReturnToMenu()
-	{
-		gameEnding = false;
-		gameState = GameState.IN_MENU;
-		itemCollected = false;
-	}
-
-	void OnGUI()
-	{
-		if (gameEnding)
-		{
-			float t = sinceEnded / gameEndDuration;
-
-			const float width = 400;
-			const float height = 80;
-			const float margin = 10;
-			
-			GUIStyle style = GUI.skin.button;
-			style.fontSize = 40;
-			style.normal.textColor = new Color(1, 1, 1);
-			style.hover.textColor = style.normal.textColor * 0.8f;
-			style.active.textColor = style.normal.textColor * 0.6f;
-
-			Rect rect = new Rect(Screen.width / 2 - width / 2, Screen.height / 2 - height / 2,
-			                     width, height);
-			if (gameWon)
-				GUI.Label(rect, "You win!", style);
-			else
-				GUI.Label(rect, "You were caught!", style);
-		}
-	}
-
 }

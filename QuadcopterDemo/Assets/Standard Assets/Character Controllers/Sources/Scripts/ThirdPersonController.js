@@ -88,7 +88,7 @@ private var inAirVelocity = Vector3.zero;
 private var lastGroundedTime = 0.0;
 
 
-private var isControllable = true;
+public var isControllable = true;
 
 function Awake ()
 {
@@ -149,6 +149,7 @@ function UpdateSmoothedMovementDirection ()
 	
 	var wasMoving = isMoving;
 	isMoving = Mathf.Abs (h) > 0.1 || Mathf.Abs (v) > 0.1;
+	
 		
 	// Target direction relative to the camera
 	var targetDirection = h * right + v * forward;
@@ -192,18 +193,13 @@ function UpdateSmoothedMovementDirection ()
 		// Pick speed modifier
 		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift))
 		{
-			targetSpeed *= runSpeed;
-			_characterState = CharacterState.Running;
-		}
-		else if (Time.time - trotAfterSeconds > walkTimeStart)
-		{
-			targetSpeed *= trotSpeed;
-			_characterState = CharacterState.Trotting;
+		    targetSpeed *= trotSpeed;
+		    _characterState = CharacterState.Trotting;
 		}
 		else
 		{
-			targetSpeed *= walkSpeed;
-			_characterState = CharacterState.Walking;
+		    targetSpeed *= runSpeed;
+		    _characterState = CharacterState.Running;
 		}
 		
 		moveSpeed = Mathf.Lerp(moveSpeed, targetSpeed, curSmooth);
@@ -215,6 +211,7 @@ function UpdateSmoothedMovementDirection ()
 	// In air controls
 	else
 	{
+	
 		// Lock camera while in air
 		if (jumping)
 			lockCameraTimer = 0.0;
@@ -222,8 +219,6 @@ function UpdateSmoothedMovementDirection ()
 		if (isMoving)
 			inAirVelocity += targetDirection.normalized * Time.deltaTime * inAirControlAcceleration;
 	}
-	
-
 		
 }
 
@@ -248,24 +243,21 @@ function ApplyJumping ()
 
 function ApplyGravity ()
 {
-	if (isControllable)	// don't move player at all if not controllable.
+	// Apply gravity
+	var jumpButton = Input.GetButton("Jump");
+		
+		
+	// When we reach the apex of the jump we send out a message
+	if (jumping && !jumpingReachedApex && verticalSpeed <= 0.0)
 	{
-		// Apply gravity
-		var jumpButton = Input.GetButton("Jump");
-		
-		
-		// When we reach the apex of the jump we send out a message
-		if (jumping && !jumpingReachedApex && verticalSpeed <= 0.0)
-		{
-			jumpingReachedApex = true;
-			SendMessage("DidJumpReachApex", SendMessageOptions.DontRequireReceiver);
-		}
-	
-		if (IsGrounded ())
-			verticalSpeed = 0.0;
-		else
-			verticalSpeed -= gravity * Time.deltaTime;
+		jumpingReachedApex = true;
+		SendMessage("DidJumpReachApex", SendMessageOptions.DontRequireReceiver);
 	}
+	
+	if (IsGrounded ())
+		verticalSpeed = 0.0;
+	else
+		verticalSpeed -= gravity * Time.deltaTime;
 }
 
 function CalculateJumpVerticalSpeed (targetJumpHeight : float)
@@ -333,7 +325,7 @@ function Update() {
 		} 
 		else 
 		{
-			if(controller.velocity.sqrMagnitude < 0.1) {
+		    if(controller.velocity.sqrMagnitude < 0.1) {
 				_animation.CrossFade(idleAnimation.name);
 			}
 			else 

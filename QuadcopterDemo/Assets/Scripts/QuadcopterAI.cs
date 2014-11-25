@@ -45,25 +45,32 @@ public class QuadcopterAI : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (flightState == FlightState.HOVER)
-            Hover();
-        else if (flightState == FlightState.PATROLLING)
-            Patrol();
-		else if (flightState == FlightState.IN_PURSUIT)
-			Pursue();
-
-        SimulateFlight();
+        if (gameLogic.gameState == GameState.PLAYING)
+            UpdatePlaying();
+        else
+            SimulateFlight(Hover());
         RotatePropellers();
+    }
+
+    void UpdatePlaying()
+    {
+        if (flightState == FlightState.HOVER)
+            SimulateFlight(Hover());
+        else if (flightState == FlightState.PATROLLING)
+            SimulateFlight(Patrol());
+        else if (flightState == FlightState.IN_PURSUIT)
+            SimulateFlight(Pursue());
         Detect();   // try to detect player
     }
 
-    void Hover()
+    FlightState Hover()
     {
         acceleration = accelerationMagnitude * -velocity.normalized;
         velocity += Vector3.Min(acceleration * Time.deltaTime, velocity.magnitude * -velocity.normalized);
+        return FlightState.HOVER;
     }
 
-    void Patrol()
+    FlightState Patrol()
     {
         Vector3 target = waypoints[targetWaypoint].position;
         float d = (target - transform.position).magnitude;
@@ -76,9 +83,10 @@ public class QuadcopterAI : MonoBehaviour
         Vector3 direction = (target - transform.position).normalized;
         acceleration = accelerationMagnitude * direction;
         velocity += acceleration * Time.deltaTime;
+        return FlightState.PATROLLING;
     }
 
-	void Pursue()
+    FlightState Pursue()
 	{
 		Vector3 target = player.transform.position;
 		Vector3 direction = target - transform.position;
@@ -86,23 +94,23 @@ public class QuadcopterAI : MonoBehaviour
 		if (direction.magnitude < catchDistance)
 		{
 			flightState = FlightState.HOVER;
-			return;
+            return FlightState.HOVER;
 		}
 		direction.Normalize();
 		acceleration = accelerationMagnitude * direction;
-		velocity += acceleration * Time.deltaTime;
+        velocity += acceleration * Time.deltaTime;
+        return FlightState.IN_PURSUIT;
 	}
 
     void RotatePropellers()
     {
         foreach (Transform propeller in propellers)
         {
-            Vector3 rot = propeller.localRotation.eulerAngles + new Vector3(0, propellerRotationSpeed * Time.deltaTime, 0);
-            propeller.localRotation = Quaternion.Euler(rot);
+            propeller.Rotate(new Vector3(0, propellerRotationSpeed * Time.deltaTime, 0));
         }
     }
 
-    void SimulateFlight()
+    void SimulateFlight(FlightState state)
     {
         // Move the quadcopter according to velocity
         if (velocity.magnitude > maxSpeed)
@@ -114,7 +122,7 @@ public class QuadcopterAI : MonoBehaviour
         transform.position = new Vector3(position.x, position.y + hoverOffset, position.z);
 
         // Rotate towards acceleration direction
-        if (flightState != FlightState.HOVER)
+        if (state != FlightState.HOVER && new Vector3(acceleration.x, 0, acceleration.z) != Vector3.zero)
         {
             Quaternion accelerationLook = Quaternion.LookRotation(new Vector3(acceleration.x, 0, acceleration.z), Vector3.up);
             rotation = Quaternion.Lerp(rotation, accelerationLook, 2.0f * Time.deltaTime);
@@ -122,10 +130,12 @@ public class QuadcopterAI : MonoBehaviour
         transform.localRotation = rotation;
         
         // Rotate the quadcopter to give a sense of acceleration
-        turningDirection = Vector3.Lerp(turningDirection, acceleration.normalized, 0.5f * Time.deltaTime);
-        transform.localRotation = rotation;
-        Vector3 axis = transform.worldToLocalMatrix * Vector3.Cross(turningDirection, Vector3.up);
-        transform.Rotate(axis, -Mathf.Min(25.0f, turningDirection.magnitude / 0.06f));
+        if (acceleration != Vector3.zero)
+        {
+            turningDirection = Vector3.Lerp(turningDirection, acceleration.normalized, 0.5f * Time.deltaTime);
+            Vector3 axis = transform.worldToLocalMatrix * Vector3.Cross(turningDirection, Vector3.up);
+            transform.Rotate(axis, -Mathf.Min(25.0f, turningDirection.magnitude / 0.06f));
+        }
     }
 
     void Detect()

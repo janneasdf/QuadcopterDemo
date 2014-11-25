@@ -283,6 +283,7 @@ GameObject:
   - 111: {fileID: 11100000}
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400002}
+  - 136: {fileID: 13600000}
   m_Layer: 0
   m_Name: 3rd Person Controller
   m_TagString: Player
@@ -1156,8 +1157,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100030}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106829}
+  m_LocalPosition: {x: -1.038674, y: .976670623, z: 1.72094679}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -2018,7 +2019,7 @@ Animation:
   m_GameObject: {fileID: 100030}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400014, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
+  m_Animation: {fileID: 7400012, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
   m_Animations:
   - {fileID: 7400002, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
   - {fileID: 7400004, guid: 449b48f7eb5d87a4baaa5fb73f875a59, type: 3}
@@ -2056,7 +2057,7 @@ MonoBehaviour:
   walkMaxAnimationSpeed: .899999976
   trotMaxAnimationSpeed: 1.29999995
   runMaxAnimationSpeed: .899999976
-  jumpAnimationSpeed: 1.14999998
+  jumpAnimationSpeed: 3
   landAnimationSpeed: 1
   walkSpeed: 3
   trotSpeed: 4
@@ -2065,12 +2066,26 @@ MonoBehaviour:
   jumpHeight: 1
   gravity: 20
   speedSmoothing: 10
-  rotateSpeed: 500
+  rotateSpeed: 1500
   trotAfterSeconds: 2
   canJump: 1
+  isControllable: 1
 --- !u!1002 &11400003
 EditorExtensionImpl:
   serializedVersion: 6
+--- !u!136 &13600000
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: .409999996
+  m_Height: 1.95000005
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
