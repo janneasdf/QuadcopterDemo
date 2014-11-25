@@ -183,7 +183,7 @@ GameObject:
   - 4: {fileID: 92953171}
   - 33: {fileID: 92953173}
   - 23: {fileID: 92953172}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GimbalArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +651,7 @@ GameObject:
   - 4: {fileID: 381962742}
   - 33: {fileID: 381962744}
   - 23: {fileID: 381962743}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Propeller4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1264,7 +1264,7 @@ GameObject:
   - 4: {fileID: 708980899}
   - 33: {fileID: 708980901}
   - 23: {fileID: 708980900}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Propeller2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1386,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300018, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1443,6 +1443,38 @@ Prefab:
     - target: {fileID: 400004, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
       propertyPath: m_LocalPosition.z
       value: .106360935
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
@@ -1522,7 +1554,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 2314ce3a3eecf4816bad3c9eca4de2e1, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100030, guid: 2314ce3a3eecf4816bad3c9eca4de2e1, type: 2}
       propertyPath: m_Name
@@ -1810,7 +1842,7 @@ GameObject:
   - 95: {fileID: 796580982}
   - 114: {fileID: 796580981}
   - 65: {fileID: 796580985}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Quadcopter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2164,7 +2196,7 @@ GameObject:
   - 4: {fileID: 1162092476}
   - 33: {fileID: 1162092478}
   - 23: {fileID: 1162092477}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GoPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2448,7 +2480,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1361384208}
   - 108: {fileID: 1361384209}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2623,7 +2655,7 @@ GameObject:
   - 4: {fileID: 1415395901}
   - 33: {fileID: 1415395903}
   - 23: {fileID: 1415395902}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GimbalArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3400,7 +3432,7 @@ GameObject:
   - 4: {fileID: 2029339126}
   - 33: {fileID: 2029339128}
   - 23: {fileID: 2029339127}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Propeller3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3540,7 +3572,7 @@ GameObject:
   - 4: {fileID: 2126051311}
   - 33: {fileID: 2126051313}
   - 23: {fileID: 2126051312}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Propeller1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
