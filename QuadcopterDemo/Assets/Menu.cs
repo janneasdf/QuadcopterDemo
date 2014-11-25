@@ -24,7 +24,7 @@ public class Menu : MonoBehaviour
 
         if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 - height - margin, width, height), "Play", style))
 		{
-			GameObject.FindWithTag("GameController").GetComponent<GameLogic>().StartGame();
+			GameObject.FindWithTag(Tags.gameController).GetComponent<GameLogic>().StartGame();
             gameObject.SetActive(false);
 		}
         if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + margin, width, height), "Exit", style))

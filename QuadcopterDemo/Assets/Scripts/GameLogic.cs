@@ -14,21 +14,26 @@ public class GameLogic : MonoBehaviour {
 	public float gameEndDuration;	// ending duration in seconds
 
 	private Transform goal;
+	private Transform item;
 	private bool itemCollected = false;
 	private bool gameEnding = false;
 	private bool gameWon = false;
 	private float sinceEnded = 0.0f;
 	private GameObject player;
+	private DirectionArrow directionArrow;
 
 	public void StartGame()
 	{
 		gameState = GameState.PLAYING;
-		// TODO
+		directionArrow.target = item;
+
 	}
 
 	public void EndGame(bool won)
 	{
-		Debug.Log("Player caught, game ending");
+		if (gameEnding)
+			return;
+		Debug.Log("Game ending");
 		sinceEnded = 0.0f;
 		gameEnding = true;
 		gameWon = won;
@@ -37,6 +42,7 @@ public class GameLogic : MonoBehaviour {
 	public void CollectItem()
 	{
 		itemCollected = true;
+		directionArrow.target = goal;
 	}
 
 	public void AlertGuards()
@@ -47,8 +53,10 @@ public class GameLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		goal = GameObject.FindWithTag("Goal").transform;
-		player = GameObject.FindWithTag("Player");
+		goal = GameObject.FindWithTag(Tags.goal).transform;
+		player = GameObject.FindWithTag(Tags.player);
+		directionArrow = GameObject.FindWithTag(Tags.directionArrow).GetComponent<DirectionArrow>();
+		item = GameObject.FindWithTag(Tags.collectable).transform;
 	}
 	
 	// Update is called once per frame
@@ -60,7 +68,7 @@ public class GameLogic : MonoBehaviour {
 				sinceEnded += Time.deltaTime;
 				if (sinceEnded > gameEndDuration)
 				{
-					Restart();
+					ReturnToMenu();
 				}
 			}
 			else
@@ -82,7 +90,7 @@ public class GameLogic : MonoBehaviour {
 		}
 	}
 
-	void Restart()
+	void ReturnToMenu()
 	{
 		gameEnding = false;
 		gameState = GameState.IN_MENU;
