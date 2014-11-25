@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Minimap : MonoBehaviour {
-
-	// index 0 player character, index 1 main camera
+public class Minimap : MonoBehaviour 
+{
 	public Transform Target;
+    public float height;
 	
 	private float minimapWidth = 0.14f;
 	private float minimapHeight = 0.14f;
@@ -15,10 +15,11 @@ public class Minimap : MonoBehaviour {
 	private Vector4 RectSmall = new Vector4();
 	private Vector4 RectBig = new Vector4(0, 0, 1, 1);
 	private float orthSize;
-	private float orthSizeMin = 5;
-	private float orthSizeMax = 15; // This should change according to map size
+	private float orthSizeMin = 20;
+	private float orthSizeMax = 100; // This should change according to map size
 
-	void Start() {
+	void Start() 
+    {
 		float aspectRatio = Screen.width / (float)Screen.height;
 
 		camera.rect = new Rect(1 - minimapWidth - offset, 1-aspectRatio * minimapHeight - offset*aspectRatio, minimapWidth, aspectRatio*minimapHeight);
@@ -26,9 +27,9 @@ public class Minimap : MonoBehaviour {
 		orthSize = orthSizeMin;
 	}
 		
-	void Update() {
-		transform.position = new Vector3 (Target.position.x, transform.position.y, Target.position.z);
-
+	void LateUpdate() 
+    {
+		transform.position = new Vector3 (Target.position.x, height, Target.position.z);
 		MapEnlargementStuff();
 	}
 
@@ -38,12 +39,14 @@ public class Minimap : MonoBehaviour {
 		float targetOrthSize = 0.0f;
 
 		Vector4 targetRect = new Vector4 ();
-		if (Input.GetKey ("m")) {
-						targetRect = RectBig;
-			targetOrthSize = orthSizeMax;
-						
-		} else {
-						targetRect = RectSmall;
+		if (Input.GetKey(KeyCode.M) || Input.GetKey(KeyCode.Tab)) 
+        {
+			targetRect = RectBig;
+			targetOrthSize = orthSizeMax;	
+		} 
+        else 
+        {
+			targetRect = RectSmall;
 			targetOrthSize = orthSizeMin;
 		}
 
