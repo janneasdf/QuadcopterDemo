@@ -129,7 +129,6 @@ GameObject:
   - 4: {fileID: 400014}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  - 95: {fileID: 9500000}
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Quadcopter
@@ -457,20 +456,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_Mesh: {fileID: 4300012, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
---- !u!95 &9500000
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100014}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 60cbba33f9fccc04cbf13e2ed26f8010, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_HasTransformHierarchy: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -491,6 +476,7 @@ MonoBehaviour:
   accelerationMagnitude: 4
   maxSpeed: 4
   propellerRotationSpeed: 180
+  catchDistance: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
