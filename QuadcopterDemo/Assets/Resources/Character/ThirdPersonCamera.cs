@@ -43,7 +43,8 @@ public class ThirdPersonCamera : MonoBehaviour {
         RaycastHit hit = new RaycastHit();
         if (Physics.Linecast(fromObject, toTarget, out hit))
         {
-            toTarget = new Vector3(hit.point.x, toTarget.y, hit.point.z);
+            Vector3 offset = new Vector3(fromObject.x - hit.point.x, 0, fromObject.z - hit.point.z).normalized * 0.5f;
+            toTarget = new Vector3(hit.point.x, toTarget.y, hit.point.z) + offset;
         }
     }
 }
