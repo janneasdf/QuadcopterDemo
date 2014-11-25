@@ -28,6 +28,7 @@ public class QuadcopterAI : MonoBehaviour
 	private bool intruderSighted = false;
     private int targetWaypoint = 0;
 	private GameObject player;
+	private GameLogic gameLogic;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +40,7 @@ public class QuadcopterAI : MonoBehaviour
                 propellers.Add(child);
         }
 		player = GameObject.FindWithTag("Player");
+		gameLogic = GameObject.FindWithTag("GameController").GetComponent<GameLogic>();
 	}
 	
 	// Update is called once per frame
@@ -84,7 +86,7 @@ public class QuadcopterAI : MonoBehaviour
 		if (direction.magnitude < catchDistance)
 		{
 			// Catch the player
-			Debug.Log("Player caught");
+			gameLogic.EndGame();
 			flightState = FlightState.HOVER;
 			return;
 		}
