@@ -1886,7 +1886,7 @@ MonoBehaviour:
   accelerationMagnitude: 4
   maxSpeed: 4
   propellerRotationSpeed: 2160
-  catchDistance: .5
+  catchDistance: 1
 --- !u!95 &796580982
 Animator:
   serializedVersion: 3
@@ -2509,9 +2509,9 @@ Light:
   serializedVersion: 3
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 4.44000006
   m_Range: 10
-  m_SpotAngle: 30
+  m_SpotAngle: 84
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -3023,10 +3023,10 @@ Camera:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: .850000024
-    y: .720000029
-    width: .129999995
-    height: .239999995
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 60
