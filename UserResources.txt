@@ -1,0 +1,4 @@
+Skybox: https://www.93i.de/products/media/skybox-texture-set-1
+Character: Unity3D
+Concrete: http://seamless-pixels.blogspot.fi/p/free-seamless-concrete-textures.html
+Shipping containers: http://opengameart.org/content/shipping-container-texture-pack
