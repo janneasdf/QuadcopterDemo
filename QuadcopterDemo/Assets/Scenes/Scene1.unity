@@ -1854,7 +1854,7 @@ MonoBehaviour:
   accelerationMagnitude: 4
   maxSpeed: 4
   propellerRotationSpeed: 2160
-  catchDistance: .5
+  catchDistance: 1
 --- !u!95 &796580982
 Animator:
   serializedVersion: 3
@@ -2477,9 +2477,9 @@ Light:
   serializedVersion: 3
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 4.44000006
   m_Range: 10
-  m_SpotAngle: 30
+  m_SpotAngle: 84
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
