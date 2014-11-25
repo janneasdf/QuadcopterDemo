@@ -16,6 +16,7 @@ public class QuadcopterAI : MonoBehaviour
     public float accelerationMagnitude;
     public float maxSpeed;
     public float propellerRotationSpeed;
+	public float catchDistance;
 
     private float hoverOffset;
     private Vector3 position;
@@ -24,8 +25,9 @@ public class QuadcopterAI : MonoBehaviour
     private Vector3 turningDirection;
     private Quaternion rotation;
     private List<Transform> propellers;
-
-    int targetWaypoint = 0;
+	private bool intruderSighted = false;
+    private int targetWaypoint = 0;
+	private GameObject player;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +38,7 @@ public class QuadcopterAI : MonoBehaviour
             if (child.name.Contains("Propeller"))
                 propellers.Add(child);
         }
+		player = GameObject.FindWithTag("Player");
 	}
 	
 	// Update is called once per frame
@@ -44,6 +47,8 @@ public class QuadcopterAI : MonoBehaviour
             Hover();
         else if (flightState == FlightState.PATROLLING)
             Patrol();
+		else if (flightState == FlightState.IN_PURSUIT)
+			Pursue();
 
         SimulateFlight();
         RotatePropellers();
@@ -70,6 +75,23 @@ public class QuadcopterAI : MonoBehaviour
         acceleration = accelerationMagnitude * direction;
         velocity += acceleration * Time.deltaTime;
     }
+
+	void Pursue()
+	{
+		Vector3 target = player.transform.position;
+		Vector3 direction = target - transform.position;
+		direction.y = 0.0f;
+		if (direction.magnitude < catchDistance)
+		{
+			// Catch the player
+			Debug.Log("Player caught");
+			flightState = FlightState.HOVER;
+			return;
+		}
+		direction.Normalize();
+		acceleration = accelerationMagnitude * direction;
+		velocity += acceleration * Time.deltaTime;
+	}
 
     void RotatePropellers()
     {
@@ -108,6 +130,25 @@ public class QuadcopterAI : MonoBehaviour
 
     void Detect()
     {
-
+		if (intruderSighted)
+		{
+			flightState = FlightState.IN_PURSUIT;
+			intruderSighted = false;
+		}
     }
+
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Player")
+		{
+			Ray ray = new Ray(transform.position, 
+			                  (player.transform.position - transform.position).normalized);
+			RaycastHit hit;
+			Physics.Raycast(ray, out hit);
+			//if (hit.collider.gameObject.tag == "Player")	TODO: doesn't work
+			{
+				intruderSighted = true;
+			}
+		}
+	}
 }
