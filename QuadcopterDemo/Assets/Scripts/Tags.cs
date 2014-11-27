@@ -8,4 +8,5 @@ public static class Tags {
 	public static string player = "Player";
 	public static string goal = "Goal";
 	public static string mainCamera = "MainCamera";
+	public static string guardSpawn = "GuardSpawn";
 }
