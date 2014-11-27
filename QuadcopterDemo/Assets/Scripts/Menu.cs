@@ -16,9 +16,9 @@ public class Menu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetAxis("Vertical") > 0.8f)
+        if (Input.GetAxis("Vertical") > 0.1f)
             activeButton = 0;
-        else if (Input.GetAxis("Vertical") < -0.8f)
+        else if (Input.GetAxis("Vertical") < -0.1f)
             activeButton = 1;
 
         if (Input.GetAxis("Accept") != 0 && controller)
@@ -55,12 +55,13 @@ public class Menu : MonoBehaviour
 
         GUI.backgroundColor = Color.clear;
 
-        GUI.DrawTexture(new Rect(Screen.width / 2 - 200 / 2, Screen.height / 2 - 400 / 2, 200, 200), logo);
+        float logoSize = Screen.height * 0.5f;
+        GUI.DrawTexture(new Rect(Screen.width / 2 - logoSize / 2, Screen.height / 2 - logoSize * 0.7f, logoSize, logoSize), logo);
 
         if (activeButton == 0 && controller)
         {
             style.normal.textColor = style.hover.textColor;
-            style.fontSize = 36;
+            style.fontSize = 42;
         }
         else
         {
@@ -68,13 +69,13 @@ public class Menu : MonoBehaviour
             style.fontSize = 32;
         }
 
-        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 20, width, height), "Play", style))
+        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + logoSize * 0.3f + 10, width, height), "Play", style))
             StartGame();
 
         if (activeButton == 1 && controller)
         {
             style.normal.textColor = style.hover.textColor;
-            style.fontSize = 36;
+            style.fontSize = 42;
         }
         else
         {
@@ -82,7 +83,7 @@ public class Menu : MonoBehaviour
             style.fontSize = 32;
         }
 
-        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 70, width, height), "Exit", style))
+        if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + logoSize * 0.3f + 60, width, height), "Exit", style))
             Application.Quit();
     }
 

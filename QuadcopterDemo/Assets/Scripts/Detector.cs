@@ -6,7 +6,7 @@ public class Detector : MonoBehaviour
     private GameLogic gameLogic;
     private GameObject player;
     private float detectDistance = 24;
-    private float fov = 60;
+    private float fov = 84;
 
     void Start()
     {

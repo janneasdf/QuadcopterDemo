@@ -109,7 +109,7 @@ public class MainCameraGUI : MonoBehaviour
 
     void OnGUI()
     {
-        const float width = 200;
+        const float width = 400;
         const float height = 80;
 
         GUIStyle style = GUI.skin.button;
@@ -138,9 +138,9 @@ public class MainCameraGUI : MonoBehaviour
 
         if (logic.gameState == GameState.BUSTED || logic.gameState == GameState.VICTORY)
         {
-            if (Input.GetAxis("Vertical") > 0.8f)
+            if (Input.GetAxis("Vertical") > 0.1f)
                 activeButton = 0;
-            else if (Input.GetAxis("Vertical") < -0.8f)
+            else if (Input.GetAxis("Vertical") < -0.1f)
                 activeButton = 1;
 
             if (Input.GetAxis("Accept") != 0 && controller)
@@ -159,7 +159,7 @@ public class MainCameraGUI : MonoBehaviour
             if (activeButton == 0 && controller)
             {
                 style.normal.textColor = style.hover.textColor;
-                style.fontSize = 36;
+                style.fontSize = 42;
             }
             else
             {
@@ -172,7 +172,7 @@ public class MainCameraGUI : MonoBehaviour
             if (activeButton == 1 && controller)
             {
                 style.normal.textColor = style.hover.textColor;
-                style.fontSize = 36;
+                style.fontSize = 42;
             }
             else
             {
