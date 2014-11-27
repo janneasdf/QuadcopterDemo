@@ -3,3 +3,4 @@ Character: Unity3D
 Concrete: http://seamless-pixels.blogspot.fi/p/free-seamless-concrete-textures.html
 Shipping containers: http://opengameart.org/content/shipping-container-texture-pack
 Plastic texture: http://www.startextures.com/free-plastic-texture-2306.html
+Astar: http://arongranberg.com/astar/
