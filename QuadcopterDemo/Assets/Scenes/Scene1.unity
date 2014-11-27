@@ -1303,6 +1303,7 @@ GameObject:
   - 143: {fileID: 552803630}
   - 114: {fileID: 552803629}
   - 136: {fileID: 552803628}
+  - 114: {fileID: 552803632}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1408,6 +1409,18 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &552803632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 552803626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39987881e18ee224b8e9ad4897799130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushPower: 1
 --- !u!1 &570184482
 GameObject:
   m_ObjectHideFlags: 0
