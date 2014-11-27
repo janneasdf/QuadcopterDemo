@@ -49,7 +49,6 @@ public class GameLogic : MonoBehaviour
 
 	public void SoundTheAlarm()
 	{
-        EndGame(false);
         if (alarm)
             return;
         alarm = true;
