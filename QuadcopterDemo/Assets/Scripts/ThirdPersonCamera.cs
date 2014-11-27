@@ -9,7 +9,6 @@ public class ThirdPersonCamera : MonoBehaviour {
     public float smooth;
     public float rotationSpeed;
     public float mouseSensitivity;
-    public float minOffsetDistance;
 
     private Vector3 targetPosition;
     private Vector3 lookDirection;
@@ -37,8 +36,8 @@ public class ThirdPersonCamera : MonoBehaviour {
         lookDirection.Normalize();
 
         targetPosition = characterOffset - lookDirection * distanceAway;
+        targetPosition = CollisionRotate(characterOffset, targetPosition);
 
-        CheckCollision(characterOffset, ref targetPosition);
         SmoothPosition(this.transform.position, targetPosition);
 
 
@@ -50,33 +49,34 @@ public class ThirdPersonCamera : MonoBehaviour {
         this.transform.position = Vector3.SmoothDamp(fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
     }
 
-    private void CheckCollision(Vector3 fromObject, ref Vector3 toTarget)
+    private Vector3 CollisionRotate(Vector3 fromObject, Vector3 toTarget)
     {
-        float offsetDistance = (fromObject - toTarget).magnitude;
-        float raycastLength = offsetDistance - minOffsetDistance;
+        for (int angle = 0; angle <= 180; angle += 10)
+        {
+            Vector3 newToTarget1 = RotatePointAroundPivot(toTarget, fromObject, angle);
+            Vector3 newToTarget2 = RotatePointAroundPivot(toTarget, fromObject, -angle);
+            if (!CheckCollision(fromObject, newToTarget1))
+                return newToTarget1;
+            if (!CheckCollision(fromObject, newToTarget2))
+                return newToTarget2;
+        }
+        return toTarget;
+    }
 
-        if (raycastLength < 0.0f)
-            return;
-
-        Vector3 cameraOut = (fromObject - toTarget).normalized;
-        Vector3 nearestCameraPosition = fromObject - cameraOut * minOffsetDistance;
-        float minHitFraction = 1.0f;
-
+    private bool CheckCollision(Vector3 fromObject, Vector3 toTarget)
+    {
         Vector3[] corners = GetNearPlaneCorners(toTarget);
         for (int i = 0; i < 4; i++)
         {
             Vector3 cornerOffset = corners[i] - toTarget;
-            Vector3 rayStart = nearestCameraPosition + cornerOffset;
+            Vector3 rayStart = fromObject + cornerOffset;
             Vector3 rayEnd = corners[i];
 
             RaycastHit hit = new RaycastHit();
-            Debug.DrawRay(rayStart, rayEnd - rayStart);
             if (Physics.Linecast(rayStart, rayEnd, out hit))
-                minHitFraction = hit.distance / raycastLength;
+                return true;
         }
-
-        if (minHitFraction < 1.0f)
-            toTarget = nearestCameraPosition - cameraOut * Mathf.Min(raycastLength * minHitFraction * 0.99f, 0);
+        return false;
     }
 
     private Vector3[] GetNearPlaneCorners(Vector3 toTarget)
@@ -89,5 +89,12 @@ public class ThirdPersonCamera : MonoBehaviour {
         corners[2] = toTarget + new Vector3(offsetX, -offsetY, camera.nearClipPlane);
         corners[3] = toTarget + new Vector3(offsetX, offsetY, camera.nearClipPlane);
         return corners;
+    }
+
+    private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float angle) {
+       Vector3 direction = point - pivot;
+       direction = Quaternion.Euler(new Vector3(0, angle, 0)) * direction; 
+       point = direction + pivot;
+       return point;
     }
 }
