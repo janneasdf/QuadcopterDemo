@@ -5,6 +5,7 @@ public enum HelpState
 {
     NONE = 0,
     MOVE,
+    LOOK,
     JUMP,
     MAP,
     CANDY
@@ -23,6 +24,7 @@ public class MainCameraGUI : MonoBehaviour
     private HelpState drawnHelpState;
 
     private Texture moveHelp;
+    private Texture lookHelp;
     private Texture jumpHelp;
     private Texture mapHelp;
     private Texture nextTexture;
@@ -30,6 +32,7 @@ public class MainCameraGUI : MonoBehaviour
     private Vector3 prevPosition;
     private float distanceDelta;
     private float distanceMoved;
+    private float distanceLooked;
     private float fadeTimer;
     private float candyTimer;
 
@@ -45,6 +48,7 @@ public class MainCameraGUI : MonoBehaviour
         audioSources = GetComponents<AudioSource>();
 
         moveHelp = Resources.Load<Texture>("GUI/WASD");
+        lookHelp = Resources.Load<Texture>("GUI/Mouse");
         jumpHelp = Resources.Load<Texture>("GUI/Space");
         mapHelp = Resources.Load<Texture>("GUI/Tab");
 
@@ -76,11 +80,14 @@ public class MainCameraGUI : MonoBehaviour
         float distanceDelta = (transform.position - prevPosition).magnitude;
         prevPosition = transform.position;
         distanceMoved += distanceDelta;
+        distanceLooked += Mathf.Abs(Input.GetAxis("Horizontal2")) + (Input.GetKey(KeyCode.Mouse1) ? Mathf.Abs(Input.GetAxis("Mouse X")) : 0);
 
         if (helpState == HelpState.CANDY)
             candyTimer += Time.deltaTime;
 
         if (helpState == HelpState.MOVE && drawnHelpState == helpState && distanceMoved > 15 && fadeTimer == 0)
+            helpState = HelpState.LOOK;
+        if (helpState == HelpState.LOOK && drawnHelpState == helpState && distanceLooked > 30 && fadeTimer == 0)
             helpState = HelpState.JUMP;
         else if (helpState == HelpState.JUMP && drawnHelpState == helpState && Input.GetAxis("Jump") > 0 && fadeTimer == 0)
             helpState = HelpState.MAP;
@@ -146,6 +153,8 @@ public class MainCameraGUI : MonoBehaviour
             GUI.color = new Color(1.0f, 1.0f, 1.0f, (fadeTime - fadeTimer) / fadeTime);
             if (drawnHelpState == HelpState.MOVE)
                 GUI.DrawTexture(new Rect(20, 20, helpHeight / moveHelp.height * moveHelp.width, helpHeight), moveHelp);
+            else if (drawnHelpState == HelpState.LOOK)
+                GUI.DrawTexture(new Rect(20, 20, helpHeight / lookHelp.height * lookHelp.width, helpHeight), lookHelp);
             else if (drawnHelpState == HelpState.JUMP)
                 GUI.DrawTexture(new Rect(20, 20, helpHeight / jumpHelp.height * jumpHelp.width, helpHeight), jumpHelp);
             else if (drawnHelpState == HelpState.MAP)
