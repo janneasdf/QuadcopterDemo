@@ -63,9 +63,7 @@ public class GameLogic : MonoBehaviour
 		GameObject[] guardSpawns = GameObject.FindGameObjectsWithTag(Tags.guardSpawn);
 		foreach (GameObject spawnPoint in guardSpawns)
 		{
-			Vector3 spawnPosition = spawnPoint.transform.position + 
-				new Vector3(0, guardPrefab.transform.position.y, 0);
-			GameObject.Instantiate(guardPrefab, spawnPosition, Quaternion.identity);
+			spawnPoint.GetComponent<GuardSpawner>().enabled = true;
 		}
 	}
 
