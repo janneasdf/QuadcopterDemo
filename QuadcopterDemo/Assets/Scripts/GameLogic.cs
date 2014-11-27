@@ -12,6 +12,7 @@ public enum GameState
 public class GameLogic : MonoBehaviour 
 {
     public ThirdPersonController character;
+	public GameObject guardPrefab;
 
     private GameState _gameState;
 	private Transform goal;
@@ -58,6 +59,14 @@ public class GameLogic : MonoBehaviour
             quadCopter.GetComponent<QuadcopterAI>().OnAlarm();
         }
         GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnAlarm();
+		// Spawn guards
+		GameObject[] guardSpawns = GameObject.FindGameObjectsWithTag(Tags.guardSpawn);
+		foreach (GameObject spawnPoint in guardSpawns)
+		{
+			Vector3 spawnPosition = spawnPoint.transform.position + 
+				new Vector3(0, guardPrefab.transform.position.y, 0);
+			GameObject.Instantiate(guardPrefab, spawnPosition, Quaternion.identity);
+		}
 	}
 
     public void Caught()

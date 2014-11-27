@@ -1590,6 +1590,7 @@ MonoBehaviour:
   smooth: 10
   rotationSpeed: 180
   mouseSensitivity: 1.5
+  minOffsetDistance: .100000001
 --- !u!114 &98349811
 MonoBehaviour:
   m_ObjectHideFlags: 0
