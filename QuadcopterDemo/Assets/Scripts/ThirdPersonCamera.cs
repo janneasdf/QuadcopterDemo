@@ -37,10 +37,9 @@ public class ThirdPersonCamera : MonoBehaviour {
         lookDirection.Normalize();
 
         targetPosition = characterOffset - lookDirection * distanceAway;
-        CollisionHandling(characterOffset, ref targetPosition);
+        CollisionHandling(characterOffset, ref targetPosition, rotationInput);
 
         SmoothPosition(this.transform.position, targetPosition);
-
 
         transform.LookAt(target);
 	}
@@ -50,39 +49,29 @@ public class ThirdPersonCamera : MonoBehaviour {
         this.transform.position = Vector3.SmoothDamp(fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
     }
 
-    private void CollisionHandling(Vector3 fromObject, ref Vector3 toTarget)
+    private void CollisionHandling(Vector3 fromObject, ref Vector3 toTarget, float rotationInput)
     {
-        // First try to rotate the camera
-        Vector3 minErrorTarget = toTarget;
-        float maxHitFraction = 0.0f;
-        for (int angle = 0; angle <= 45; angle += 1)
+        if (rotationInput == 0) 
         {
-            Vector3 newToTarget1 = RotatePointAroundPivot(toTarget, fromObject, angle);
-            Vector3 newToTarget2 = RotatePointAroundPivot(toTarget, fromObject, -angle);
-            float hitFraction1 = CheckCollision(fromObject, ref newToTarget1);
-            if (hitFraction1 >= 1.0f)
+            for (float angle = 0; angle <= 30; angle += 0.1f)
             {
-                transform.RotateAround(target.position, Vector3.up, angle);
-                return;
-            }
-            else if (hitFraction1 > maxHitFraction)
-            {
-                maxHitFraction = hitFraction1;
-                minErrorTarget = newToTarget1;
-            }
-            float hitFraction2 = CheckCollision(fromObject, ref newToTarget2);
-            if (hitFraction2 >= 1.0f)
-            {
-                transform.RotateAround(target.position, Vector3.up, -angle);
-                return;
-            }
-            else if (hitFraction2 > maxHitFraction)
-            {
-                maxHitFraction = hitFraction2;
-                minErrorTarget = newToTarget2;
+                Vector3 newToTarget1 = RotatePointAroundPivot(toTarget, fromObject, angle);
+                Vector3 newToTarget2 = RotatePointAroundPivot(toTarget, fromObject, -angle);
+                float hitFraction1 = CheckCollision(fromObject, ref newToTarget1);
+                if (hitFraction1 >= 1.0f)
+                {
+                    transform.RotateAround(target.position, Vector3.up, angle);
+                    return;
+                }
+                float hitFraction2 = CheckCollision(fromObject, ref newToTarget2);
+                if (hitFraction2 >= 1.0f)
+                {
+                    transform.RotateAround(target.position, Vector3.up, -angle);
+                    return;
+                }
             }
         }
-        toTarget = minErrorTarget;
+        CheckCollision(fromObject, ref toTarget);
     }
 
     private float CheckCollision(Vector3 fromObject, ref Vector3 toTarget)
@@ -109,7 +98,8 @@ public class ThirdPersonCamera : MonoBehaviour {
             if (Physics.Linecast(rayStart, rayEnd, out hit))
                 minHitFraction = hit.distance / raycastLength;
         }
-        toTarget = nearestCameraPosition - cameraOut * Mathf.Min(raycastLength * minHitFraction * 0.99f, 0);
+        if (minHitFraction < 1.0f)
+            toTarget = nearestCameraPosition - cameraOut * Mathf.Min(raycastLength * minHitFraction * 0.9f, 0);
         return minHitFraction;
     }
 

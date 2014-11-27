@@ -1543,7 +1543,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .0500000007
+  near clip plane: .00999999978
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1591,7 +1591,7 @@ MonoBehaviour:
   smooth: 10
   rotationSpeed: 180
   mouseSensitivity: 1.5
-  minOffsetDistance: .100000001
+  minOffsetDistance: .300000012
 --- !u!114 &98349811
 MonoBehaviour:
   m_ObjectHideFlags: 0
