@@ -29,8 +29,8 @@ public class QuadcopterAI : MonoBehaviour
 	private GameObject player;
 	private GameLogic gameLogic;
 
-	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
         propellers = new List<Transform>();
         position = transform.position;
         foreach (Transform child in transform) 
@@ -42,8 +42,8 @@ public class QuadcopterAI : MonoBehaviour
 		gameLogic = GameObject.FindWithTag("GameController").GetComponent<GameLogic>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
         if (gameLogic.gameState == GameState.PLAYING)
             UpdatePlaying();
         else
@@ -141,20 +141,4 @@ public class QuadcopterAI : MonoBehaviour
             transform.Rotate(axis, -Mathf.Min(25.0f, turningDirection.magnitude / 0.06f));
         }
     }
-
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.tag == "Player")
-		{
-			Vector3 rayDirection = (player.transform.position - transform.position).normalized;
-			Ray ray = new Ray(transform.position + rayDirection, 
-			                  rayDirection);
-			RaycastHit hit;
-			Physics.Raycast(ray, out hit);
-			if (hit.collider.gameObject.tag == "Player" && flightState == FlightState.PATROLLING)
-            {
-                gameLogic.SoundTheAlarm();
-			}
-		}
-	}
 }

@@ -58,6 +58,16 @@ public class MainCameraGUI : MonoBehaviour
         audioSources[2].Stop();
     }
 
+    public void OnGameOver()
+    {
+        audioSources[4].Play();
+    }
+
+    public void OnVictory()
+    {
+        audioSources[3].Play();
+    }
+
     void Update()
     {
         if (logic.gameState != GameState.PLAYING)
@@ -141,7 +151,7 @@ public class MainCameraGUI : MonoBehaviour
             else if (drawnHelpState == HelpState.MAP)
                 GUI.DrawTexture(new Rect(20, 20, helpHeight / mapHelp.height * mapHelp.width, helpHeight), mapHelp);
             else if (drawnHelpState == HelpState.CANDY)
-                GUI.Label(new Rect(20, 20, 400, 140), "Follow the red arrow. Find the candy and return to where you started.", style);
+                GUI.Label(new Rect(20, 20, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
             GUI.color = new Color(1.0f, 1.0f, 1.0f);
         }
     }

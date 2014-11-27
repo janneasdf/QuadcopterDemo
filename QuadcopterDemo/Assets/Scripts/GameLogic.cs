@@ -19,6 +19,7 @@ public class GameLogic : MonoBehaviour
 	private GameObject player;
     private DirectionArrow directionArrow;
     private bool itemCollected = false;
+    private bool alarm = false;
 
     public GameState gameState
     {
@@ -48,6 +49,10 @@ public class GameLogic : MonoBehaviour
 
 	public void SoundTheAlarm()
 	{
+        EndGame(false);
+        if (alarm)
+            return;
+        alarm = true;
         GameObject[] quadCopters = GameObject.FindGameObjectsWithTag("Quadcopter");
         foreach (GameObject quadCopter in quadCopters)
         {
@@ -66,9 +71,15 @@ public class GameLogic : MonoBehaviour
         if (gameState != GameState.PLAYING)
             return;
         if (won)
+        {
             gameState = GameState.VICTORY;
+            GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnVictory();
+        }
         else
+        {
             gameState = GameState.BUSTED;
+            GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnGameOver();
+        }
         directionArrow.target = null;
     }
 
