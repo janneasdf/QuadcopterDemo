@@ -130,6 +130,8 @@ public class MainCameraGUI : MonoBehaviour
 
         if (logic.gameState == GameState.PLAYING)
         {
+
+            Debug.Log(drawnHelpState);
             style.fontSize = 32;
             style.wordWrap = true;
             float helpHeight = Screen.height / 10.0f;
