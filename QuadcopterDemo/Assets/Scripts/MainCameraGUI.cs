@@ -5,9 +5,7 @@ public enum HelpState
 {
     NONE = 0,
     MOVE,
-    LOOK,
     JUMP,
-    MAP,
     CANDY
 }
 
@@ -34,12 +32,13 @@ public class MainCameraGUI : MonoBehaviour
     private float distanceMoved;
     private float distanceLooked;
     private float fadeTimer;
-    private float candyTimer;
 
     private Font font;
     int activeButton = 0;
     bool controller = false;
-
+    bool mapped = false;
+    bool jumped = false;
+    private float candyTimer = 0;
     void Start()
     {
         helpState = HelpState.MOVE;
@@ -84,18 +83,19 @@ public class MainCameraGUI : MonoBehaviour
         distanceMoved += distanceDelta;
         distanceLooked += Mathf.Abs(Input.GetAxis("Horizontal2")) + (Input.GetKey(KeyCode.Mouse1) ? Mathf.Abs(Input.GetAxis("Mouse X")) : 0);
 
+        if (helpState == HelpState.JUMP && Input.GetAxis("Jump") > 0)
+            jumped = true;
+        if (helpState == HelpState.JUMP && Input.GetAxis("Map") > 0)
+            mapped = true;
+
         if (helpState == HelpState.CANDY)
             candyTimer += Time.deltaTime;
 
-        if (helpState == HelpState.MOVE && drawnHelpState == helpState && distanceMoved > 15 && fadeTimer == 0)
-            helpState = HelpState.LOOK;
-        if (helpState == HelpState.LOOK && drawnHelpState == helpState && distanceLooked > 30 && fadeTimer == 0)
+        if (helpState == HelpState.MOVE && drawnHelpState == helpState && (distanceMoved > 15 || distanceLooked > 30) && fadeTimer == 0)
             helpState = HelpState.JUMP;
-        else if (helpState == HelpState.JUMP && drawnHelpState == helpState && Input.GetAxis("Jump") > 0 && fadeTimer == 0)
-            helpState = HelpState.MAP;
-        else if (helpState == HelpState.MAP && drawnHelpState == helpState && Input.GetAxis("Map") > 0 && fadeTimer == 0)
+        else if (helpState == HelpState.JUMP && drawnHelpState == helpState && fadeTimer == 0 && jumped && mapped)
             helpState = HelpState.CANDY;
-        else if (helpState == HelpState.CANDY && drawnHelpState == helpState && candyTimer > 10 && fadeTimer == 0)
+        else if (helpState == HelpState.CANDY && candyTimer > 10)
             helpState = HelpState.NONE;
 
         if (drawnHelpState != helpState)
@@ -166,7 +166,7 @@ public class MainCameraGUI : MonoBehaviour
                 style.normal.textColor = new Color(1, 1, 1) * 0.8f;
                 style.fontSize = 32;
             }
-            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 20, width, height), "Play", style))
+            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 20, width, height), "Main menu", style))
                 Application.LoadLevel("Scene1");
 
             if (activeButton == 1 && controller)
@@ -183,23 +183,29 @@ public class MainCameraGUI : MonoBehaviour
                 Application.Quit();
         }
 
+        float helpHeight = Screen.height / 16.0f;
         if (logic.gameState == GameState.PLAYING)
         {
             style.fontSize = 32;
             style.wordWrap = true;
-            float helpHeight = Screen.height / 10.0f;
             GUI.color = new Color(1.0f, 1.0f, 1.0f, (fadeTime - fadeTimer) / fadeTime);
             if (drawnHelpState == HelpState.MOVE)
-                GUI.DrawTexture(new Rect(20, 20, helpHeight / moveHelp.height * moveHelp.width, helpHeight), moveHelp);
-            else if (drawnHelpState == HelpState.LOOK)
-                GUI.DrawTexture(new Rect(20, 20, helpHeight / lookHelp.height * lookHelp.width, helpHeight), lookHelp);
+            {
+                GUI.DrawTexture(new Rect(80, 20, helpHeight / moveHelp.height * moveHelp.width, helpHeight), moveHelp);
+                GUI.DrawTexture(new Rect(70, 20 + helpHeight, helpHeight / lookHelp.height * lookHelp.width, helpHeight), lookHelp);
+            }
             else if (drawnHelpState == HelpState.JUMP)
-                GUI.DrawTexture(new Rect(20, 20, helpHeight / jumpHelp.height * jumpHelp.width, helpHeight), jumpHelp);
-            else if (drawnHelpState == HelpState.MAP)
-                GUI.DrawTexture(new Rect(20, 20, helpHeight / mapHelp.height * mapHelp.width, helpHeight), mapHelp);
-            else if (drawnHelpState == HelpState.CANDY)
-                GUI.Label(new Rect(20, 20, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
-            GUI.color = new Color(1.0f, 1.0f, 1.0f);
+            {
+                GUI.DrawTexture(new Rect(70, 20, helpHeight / jumpHelp.height * jumpHelp.width, helpHeight), jumpHelp);
+                GUI.DrawTexture(new Rect(70, 20 + helpHeight, helpHeight / mapHelp.height * mapHelp.width, helpHeight), mapHelp);
+            }
+            if (drawnHelpState != HelpState.NONE)
+            {
+                GUI.color = new Color(1.0f, 1.0f, 1.0f);
+            }
+            style.normal.textColor = GUI.color;
+            if (drawnHelpState != HelpState.NONE)
+                GUI.Label(new Rect(20, 20 + 2 * helpHeight, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
         }
     }
 }

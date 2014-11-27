@@ -13,8 +13,8 @@ public class DirectionArrow : MonoBehaviour {
         }
         else
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.rotation = Quaternion.LookRotation(direction);
+            transform.LookAt(target.position);
+            transform.Rotate(Vector3.right, 20, Space.Self);
             renderer.enabled = true;
         }
 		
@@ -40,7 +40,7 @@ public class DirectionArrow : MonoBehaviour {
         float distance = (target.position - transform.position).magnitude;
         if (renderer.enabled)
         {
-            GUI.Label(new Rect(Screen.width / 2 - width / 2, Screen.height * 0.09f, width, height), distance.ToString("#.0") + " m");
+            GUI.Label(new Rect(Screen.width / 2 - width / 2, Screen.height * 0.15f, width, height), distance.ToString("#.0") + " m");
         }
     }
 }

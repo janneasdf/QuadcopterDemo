@@ -1,4 +1,4 @@
 QuadcopterDemo
 ==============
 TODO:
-Arrow distance text
+Tupla minimappiin

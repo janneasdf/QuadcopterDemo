@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Minimap : MonoBehaviour 
 {
-	public Transform Target;
+	public Transform target;
+    public Transform largeTarget;
     public float height;
 	
 	private float minimapWidth = 0.14f;
@@ -16,7 +17,7 @@ public class Minimap : MonoBehaviour
 	private Vector4 RectBig = new Vector4(0, 0, 1, 1);
 	private float orthSize;
 	private float orthSizeMin = 20;
-	private float orthSizeMax = 100; // This should change according to map size
+	private float orthSizeMax = 70; // This should change according to map size
 
 	void Start() 
     {
@@ -29,7 +30,8 @@ public class Minimap : MonoBehaviour
 		
 	void LateUpdate() 
     {
-		transform.position = new Vector3 (Target.position.x, height, Target.position.z);
+        Transform t = Input.GetAxis("Map") > 0 ? largeTarget : target;
+        transform.position = Vector3.Lerp(transform.position, new Vector3(t.position.x, height, t.position.z), Time.deltaTime * speed);
 		MapEnlargementStuff();
 	}
 
@@ -56,4 +58,9 @@ public class Minimap : MonoBehaviour
 		camera.rect = new Rect (result.x, result.y, result.z, result.w);
 		camera.orthographicSize = orthSize;
 	}
+
+    void OnGUI()
+    {
+        //GUI.DrawTexture();
+    }
 }
