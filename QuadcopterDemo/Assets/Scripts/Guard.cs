@@ -22,7 +22,6 @@ public class Guard : MonoBehaviour
         if (gameLogic.gameState == GameState.PLAYING)
         {
             AI.enabled = true;
-            CheckCatch();
             Move();
         }
         else
@@ -37,10 +36,9 @@ public class Guard : MonoBehaviour
         animator.SetFloat("Speed", AI.speed);
     }
 
-    void CheckCatch()
+    void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        float distance = (player.transform.position - transform.position).magnitude;
-        if (gameLogic.gameState == GameState.PLAYING && distance < AI.slowdownDistance)
+        if (hit.collider.gameObject.tag == Tags.player && gameLogic.gameState == GameState.PLAYING)
         {
             gameLogic.Caught();
         }

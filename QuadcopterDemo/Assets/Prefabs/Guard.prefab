@@ -1032,7 +1032,7 @@ MonoBehaviour:
   slowdownDistance: 1.39999998
   pickNextWaypointDist: 2
   forwardLook: 1
-  endReachedDistance: .200000003
+  endReachedDistance: .100000001
   closestOnPathCheck: 1
 --- !u!114 &11400004
 MonoBehaviour:
