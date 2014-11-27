@@ -39,7 +39,7 @@ public class Minimap : MonoBehaviour
 		float targetOrthSize = 0.0f;
 
 		Vector4 targetRect = new Vector4 ();
-		if (Input.GetKey(KeyCode.M) || Input.GetKey(KeyCode.Tab)) 
+		if (Input.GetAxis("Map") > 0) 
         {
 			targetRect = RectBig;
 			targetOrthSize = orthSizeMax;	

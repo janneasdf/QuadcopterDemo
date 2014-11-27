@@ -1,6 +1,8 @@
 Skybox: https://www.93i.de/products/media/skybox-texture-set-1
 Character: Unity3D
-Concrete: http://seamless-pixels.blogspot.fi/p/free-seamless-concrete-textures.html
-Shipping containers: http://opengameart.org/content/shipping-container-texture-pack
+Concrete: http://www.seamless-pixels.blogspot.fi/p/free-seamless-concrete-textures.html
+Shipping containers: http://www.opengameart.org/content/shipping-container-texture-pack
 Plastic texture: http://www.startextures.com/free-plastic-texture-2306.html
-Astar: http://arongranberg.com/astar/
+Astar: http://www.arongranberg.com/astar/
+Music: http://www.freemusicarchive.org/ (Tyrannic Toy - Blackroad, Broke For Free - Calm The Fuck Down)
+Soundeffects: http://www.freesounds.org/

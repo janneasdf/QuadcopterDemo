@@ -46,8 +46,14 @@ public class GameLogic : MonoBehaviour
         tupla.renderer.enabled = true;
 	}
 
-	public void AlertGuards()
+	public void SoundTheAlarm()
 	{
+        GameObject[] quadCopters = GameObject.FindGameObjectsWithTag("Quadcopter");
+        foreach (GameObject quadCopter in quadCopters)
+        {
+            quadCopter.GetComponent<QuadcopterAI>().OnAlarm();
+        }
+        GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnAlarm();
 	}
 
     public void Caught()

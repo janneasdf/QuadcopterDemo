@@ -25,7 +25,6 @@ public class QuadcopterAI : MonoBehaviour
     private Vector3 turningDirection;
     private Quaternion rotation;
     private List<Transform> propellers;
-	private bool intruderSighted = false;
     private int targetWaypoint = 0;
 	private GameObject player;
 	private GameLogic gameLogic;
@@ -52,6 +51,13 @@ public class QuadcopterAI : MonoBehaviour
         RotatePropellers();
     }
 
+    public void OnAlarm()
+    {
+        flightState = FlightState.IN_PURSUIT;
+        Light light = transform.Find("GimbalArm1/GimbalArm2/GoPro/Spotlight").GetComponent<Light>();
+        light.color = Color.red;
+    }
+
     void UpdatePlaying()
     {
         if (flightState == FlightState.HOVER)
@@ -60,7 +66,6 @@ public class QuadcopterAI : MonoBehaviour
             SimulateFlight(Patrol());
         else if (flightState == FlightState.IN_PURSUIT)
             SimulateFlight(Pursue());
-        Detect();   // try to detect player
     }
 
     FlightState Hover()
@@ -93,8 +98,7 @@ public class QuadcopterAI : MonoBehaviour
 		direction.y = 0.0f;
 		if (direction.magnitude < catchDistance)
 		{
-			flightState = FlightState.HOVER;
-            return FlightState.HOVER;
+            return Hover();
 		}
 		direction.Normalize();
 		acceleration = accelerationMagnitude * direction;
@@ -138,16 +142,6 @@ public class QuadcopterAI : MonoBehaviour
         }
     }
 
-    void Detect()
-    {
-		if (intruderSighted)
-		{
-			flightState = FlightState.IN_PURSUIT;
-			intruderSighted = false;
-			gameLogic.AlertGuards();
-		}
-    }
-
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "Player")
@@ -157,10 +151,9 @@ public class QuadcopterAI : MonoBehaviour
 			                  rayDirection);
 			RaycastHit hit;
 			Physics.Raycast(ray, out hit);
-			if (hit.collider.gameObject.tag == "Player")
-			{
-				Debug.Log("spotted!");
-				intruderSighted = true;
+			if (hit.collider.gameObject.tag == "Player" && flightState == FlightState.PATROLLING)
+            {
+                gameLogic.SoundTheAlarm();
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 QuadcopterDemo
 ==============
 TODO:
-Help texts (Move, Jump, Show map)
 Goal explanation
 Sound effects
 Level design
-Alarm event
+Arrow distance text
+Map tweaking?
