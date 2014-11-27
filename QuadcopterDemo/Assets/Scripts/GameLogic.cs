@@ -48,9 +48,12 @@ public class GameLogic : MonoBehaviour
 
 	public void AlertGuards()
 	{
-		Debug.Log("Guards have been alerted!");
-        EndGame(false);
 	}
+
+    public void Caught()
+    {
+        EndGame(false);
+    }
 
     void EndGame(bool won)
     {
@@ -87,7 +90,6 @@ public class GameLogic : MonoBehaviour
 		delta.y = 0;
 		if (delta.magnitude < 2.0f)
         {
-            Debug.Log("Victory");
             EndGame(true);
 		}
 	}
