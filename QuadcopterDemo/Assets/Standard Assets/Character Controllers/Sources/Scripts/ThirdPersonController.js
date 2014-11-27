@@ -138,8 +138,8 @@ function UpdateSmoothedMovementDirection ()
 	// Always orthogonal to the forward vector
 	var right = Vector3(forward.z, 0, -forward.x);
 
-	var v = Input.GetAxisRaw("Vertical");
-	var h = Input.GetAxisRaw("Horizontal");
+	var v = isControllable ? Input.GetAxisRaw("Vertical") : 0;
+	var h = isControllable ? Input.GetAxisRaw("Horizontal") : 0;
 
 	// Are we moving backwards or looking backwards
 	if (v < -0.2)
@@ -191,7 +191,7 @@ function UpdateSmoothedMovementDirection ()
 		_characterState = CharacterState.Idle;
 		
 		// Pick speed modifier
-		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift))
+		if (isControllable && (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)))
 		{
 		    targetSpeed *= trotSpeed;
 		    _characterState = CharacterState.Trotting;
@@ -244,7 +244,7 @@ function ApplyJumping ()
 function ApplyGravity ()
 {
 	// Apply gravity
-	var jumpButton = Input.GetButton("Jump");
+	var jumpButton = isControllable && Input.GetButton("Jump");
 		
 		
 	// When we reach the apex of the jump we send out a message
@@ -279,14 +279,8 @@ function DidJump ()
 }
 
 function Update() {
-	
-	if (!isControllable)
-	{
-		// kill all inputs if not controllable.
-		Input.ResetInputAxes();
-	}
 
-	if (Input.GetButtonDown ("Jump"))
+	if (isControllable && Input.GetButtonDown ("Jump"))
 	{
 		lastJumpButtonTime = Time.time;
 	}
@@ -412,7 +406,7 @@ function GetLockCameraTimer ()
 
 function IsMoving ()  : boolean
 {
-	return Mathf.Abs(Input.GetAxisRaw("Vertical")) + Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5;
+	return Mathf.Abs(Input.GetAxisRaw("Vertical")) + Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5 && isControllable;
 }
 
 function HasJumpReachedApex ()

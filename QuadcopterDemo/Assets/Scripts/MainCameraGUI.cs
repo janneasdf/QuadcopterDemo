@@ -37,6 +37,8 @@ public class MainCameraGUI : MonoBehaviour
     private float candyTimer;
 
     private Font font;
+    int activeButton = 0;
+    bool controller = false;
 
     void Start()
     {
@@ -102,19 +104,19 @@ public class MainCameraGUI : MonoBehaviour
             fadeTimer = Mathf.Max(0, fadeTimer - Time.deltaTime);
         if (fadeTimer > fadeTime)
             drawnHelpState = helpState;
+
     }
 
     void OnGUI()
     {
         const float width = 200;
         const float height = 80;
-        const float margin = 10;
 
         GUIStyle style = GUI.skin.button;
         style.fontSize = 52;
-        style.normal.textColor = new Color(1, 1, 1);
-        style.hover.textColor = style.normal.textColor * 0.8f;
-        style.active.textColor = style.normal.textColor * 0.6f;
+        style.normal.textColor = new Color(1, 1, 1) * 0.8f;
+        style.hover.textColor = style.normal.textColor / 0.8f;
+        style.active.textColor = style.normal.textColor;
         style.font = font;
         style.fontStyle = FontStyle.Bold;
 
@@ -136,12 +138,48 @@ public class MainCameraGUI : MonoBehaviour
 
         if (logic.gameState == GameState.BUSTED || logic.gameState == GameState.VICTORY)
         {
-            style.fontSize = 32;
-            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 - margin, width, 50), "Main menu", style))
+            if (Input.GetAxis("Vertical") > 0.8f)
+                activeButton = 0;
+            else if (Input.GetAxis("Vertical") < -0.8f)
+                activeButton = 1;
+
+            if (Input.GetAxis("Accept") != 0 && controller)
             {
-                Application.LoadLevel("Scene1");
+                if (activeButton == 0)
+                    Application.LoadLevel("Scene1");
+                else
+                    Application.Quit();
             }
-            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + height / 2 + margin, width, 50), "Exit", style))
+
+            if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Accept") != 0)
+                controller = true;
+            else if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0 || Input.GetKey(KeyCode.Mouse0))
+                controller = false;
+
+            if (activeButton == 0 && controller)
+            {
+                style.normal.textColor = style.hover.textColor;
+                style.fontSize = 36;
+            }
+            else
+            {
+                style.normal.textColor = new Color(1, 1, 1) * 0.8f;
+                style.fontSize = 32;
+            }
+            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 20, width, height), "Play", style))
+                Application.LoadLevel("Scene1");
+
+            if (activeButton == 1 && controller)
+            {
+                style.normal.textColor = style.hover.textColor;
+                style.fontSize = 36;
+            }
+            else
+            {
+                style.normal.textColor = new Color(1, 1, 1) * 0.8f;
+                style.fontSize = 32;
+            }
+            if (GUI.Button(new Rect(Screen.width / 2 - width / 2, Screen.height / 2 + 70, width, height), "Exit", style))
                 Application.Quit();
         }
 
