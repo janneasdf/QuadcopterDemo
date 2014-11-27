@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 552803629}
+  guardPrefab: {fileID: 0}
 --- !u!4 &462529
 Transform:
   m_ObjectHideFlags: 0

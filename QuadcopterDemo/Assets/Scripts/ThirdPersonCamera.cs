@@ -9,6 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     public float smooth;
     public float rotationSpeed;
     public float mouseSensitivity;
+    public float minOffsetDistance = 0.3f;
 
     private Vector3 targetPosition;
     private Vector3 lookDirection;
@@ -36,7 +37,7 @@ public class ThirdPersonCamera : MonoBehaviour {
         lookDirection.Normalize();
 
         targetPosition = characterOffset - lookDirection * distanceAway;
-        targetPosition = CollisionRotate(characterOffset, targetPosition);
+        CollisionHandling(characterOffset, ref targetPosition);
 
         SmoothPosition(this.transform.position, targetPosition);
 
@@ -49,34 +50,67 @@ public class ThirdPersonCamera : MonoBehaviour {
         this.transform.position = Vector3.SmoothDamp(fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
     }
 
-    private Vector3 CollisionRotate(Vector3 fromObject, Vector3 toTarget)
+    private void CollisionHandling(Vector3 fromObject, ref Vector3 toTarget)
     {
-        for (int angle = 0; angle <= 180; angle += 10)
+        // First try to rotate the camera
+        Vector3 minErrorTarget = toTarget;
+        float maxHitFraction = 0.0f;
+        for (int angle = 0; angle <= 45; angle += 1)
         {
             Vector3 newToTarget1 = RotatePointAroundPivot(toTarget, fromObject, angle);
             Vector3 newToTarget2 = RotatePointAroundPivot(toTarget, fromObject, -angle);
-            if (!CheckCollision(fromObject, newToTarget1))
-                return newToTarget1;
-            if (!CheckCollision(fromObject, newToTarget2))
-                return newToTarget2;
+            float hitFraction1 = CheckCollision(fromObject, ref newToTarget1);
+            if (hitFraction1 >= 1.0f)
+            {
+                transform.RotateAround(target.position, Vector3.up, angle);
+                return;
+            }
+            else if (hitFraction1 > maxHitFraction)
+            {
+                maxHitFraction = hitFraction1;
+                minErrorTarget = newToTarget1;
+            }
+            float hitFraction2 = CheckCollision(fromObject, ref newToTarget2);
+            if (hitFraction2 >= 1.0f)
+            {
+                transform.RotateAround(target.position, Vector3.up, -angle);
+                return;
+            }
+            else if (hitFraction2 > maxHitFraction)
+            {
+                maxHitFraction = hitFraction2;
+                minErrorTarget = newToTarget2;
+            }
         }
-        return toTarget;
+        toTarget = minErrorTarget;
     }
 
-    private bool CheckCollision(Vector3 fromObject, Vector3 toTarget)
+    private float CheckCollision(Vector3 fromObject, ref Vector3 toTarget)
     {
+        float minHitFraction = 1.0f;
+        float offsetDistance = (fromObject - toTarget).magnitude;
+        float raycastLength = offsetDistance - minOffsetDistance;
+
+        if (raycastLength < 0.0f)
+            return minHitFraction;
+
+        Vector3 cameraOut = (fromObject - toTarget).normalized;
+        Vector3 nearestCameraPosition = fromObject - cameraOut * minOffsetDistance;
+
         Vector3[] corners = GetNearPlaneCorners(toTarget);
         for (int i = 0; i < 4; i++)
         {
             Vector3 cornerOffset = corners[i] - toTarget;
-            Vector3 rayStart = fromObject + cornerOffset;
+            Vector3 rayStart = nearestCameraPosition + cornerOffset;
             Vector3 rayEnd = corners[i];
 
             RaycastHit hit = new RaycastHit();
+            Debug.DrawRay(rayStart, rayEnd - rayStart);
             if (Physics.Linecast(rayStart, rayEnd, out hit))
-                return true;
+                minHitFraction = hit.distance / raycastLength;
         }
-        return false;
+        toTarget = nearestCameraPosition - cameraOut * Mathf.Min(raycastLength * minHitFraction * 0.99f, 0);
+        return minHitFraction;
     }
 
     private Vector3[] GetNearPlaneCorners(Vector3 toTarget)
@@ -84,10 +118,10 @@ public class ThirdPersonCamera : MonoBehaviour {
         Vector3[] corners = new Vector3[4];
         float offsetX = camera.nearClipPlane * Mathf.Tan(camera.fieldOfView / 2);
         float offsetY = camera.nearClipPlane * Mathf.Tan(camera.fieldOfView / 2);
-        corners[0] = toTarget + new Vector3(-offsetX, offsetY, camera.nearClipPlane);
-        corners[1] = toTarget + new Vector3(-offsetX, -offsetY, camera.nearClipPlane);
-        corners[2] = toTarget + new Vector3(offsetX, -offsetY, camera.nearClipPlane);
-        corners[3] = toTarget + new Vector3(offsetX, offsetY, camera.nearClipPlane);
+        corners[0] = toTarget + transform.rotation * new Vector3(-offsetX, offsetY, camera.nearClipPlane);
+        corners[1] = toTarget + transform.rotation * new Vector3(-offsetX, -offsetY, camera.nearClipPlane);
+        corners[2] = toTarget + transform.rotation * new Vector3(offsetX, -offsetY, camera.nearClipPlane);
+        corners[3] = toTarget + transform.rotation * new Vector3(offsetX, offsetY, camera.nearClipPlane);
         return corners;
     }
 
