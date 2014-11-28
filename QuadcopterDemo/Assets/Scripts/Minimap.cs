@@ -5,6 +5,7 @@ public class Minimap : MonoBehaviour
 {
 	public Transform target;
     public Transform largeTarget;
+    public Transform tupla;
     public float height;
 	
 	private float minimapWidth = 0.14f;
@@ -18,6 +19,8 @@ public class Minimap : MonoBehaviour
 	private float orthSize;
 	private float orthSizeMin = 20;
 	private float orthSizeMax = 70; // This should change according to map size
+    private Texture tuplaIcon;
+    private Camera[] cameras;
 
 	void Start() 
     {
@@ -26,6 +29,9 @@ public class Minimap : MonoBehaviour
 		camera.rect = new Rect(1 - minimapWidth - offset, 1-aspectRatio * minimapHeight - offset*aspectRatio, minimapWidth, aspectRatio*minimapHeight);
 		RectSmall = new Vector4(camera.rect.x, camera.rect.y, camera.rect.width, camera.rect.height);
 		orthSize = orthSizeMin;
+        tuplaIcon = Resources.Load<Texture>("GUI/Tupla");
+
+        cameras = GameObject.FindObjectsOfType<Camera>();
 	}
 		
 	void LateUpdate() 
@@ -61,6 +67,34 @@ public class Minimap : MonoBehaviour
 
     void OnGUI()
     {
-        //GUI.DrawTexture();
+        foreach (Camera otherCamera in cameras)
+            if (otherCamera.gameObject.activeInHierarchy && otherCamera.depth > camera.depth)
+                return;
+
+        GUIStyle style = GUI.skin.label;
+        style.alignment = TextAnchor.MiddleCenter;
+        float iconWidth = Screen.width * 0.04f;
+        float iconHeight = Screen.height * 0.04f;
+        float cx = camera.rect.x * Screen.width;
+        float cy = (1.0f - camera.rect.y) * Screen.height;
+        float cwidth = camera.rect.width * Screen.width;
+        float cheight = camera.rect.height * Screen.height;
+        float aspectRatio = cwidth / cheight;
+
+        // Draw tupla icon
+        Vector3 toTupla = tupla.position - transform.position;
+        Vector2 toTuplaOrtho = new Vector2((toTupla.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTupla.z + orthSize) / (orthSize * 2.0f));
+        float x = cx + cwidth * toTuplaOrtho.x;
+        float y = cy - cheight * toTuplaOrtho.y;
+        if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
+            GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);
+
+        // Draw player icon
+        /*Vector3 toTarget = target.position - transform.position;
+        Vector2 toTargetOrtho = new Vector2((toTarget.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTarget.z + orthSize) / (orthSize * 2.0f));
+        x = cx + cwidth * toTargetOrtho.x;
+        y = cy - cheight * toTargetOrtho.y;
+        if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
+            GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);*/
     }
 }

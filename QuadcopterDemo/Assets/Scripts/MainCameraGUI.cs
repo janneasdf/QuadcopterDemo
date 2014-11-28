@@ -191,13 +191,13 @@ public class MainCameraGUI : MonoBehaviour
             GUI.color = new Color(1.0f, 1.0f, 1.0f, (fadeTime - fadeTimer) / fadeTime);
             if (drawnHelpState == HelpState.MOVE)
             {
-                GUI.DrawTexture(new Rect(80, 20, helpHeight / moveHelp.height * moveHelp.width, helpHeight), moveHelp);
-                GUI.DrawTexture(new Rect(70, 20 + helpHeight, helpHeight / lookHelp.height * lookHelp.width, helpHeight), lookHelp);
+                GUI.DrawTexture(new Rect(80, Screen.height - 2 * helpHeight - 160, helpHeight / moveHelp.height * moveHelp.width, helpHeight), moveHelp);
+                GUI.DrawTexture(new Rect(70, Screen.height - helpHeight - 160, helpHeight / lookHelp.height * lookHelp.width, helpHeight), lookHelp);
             }
             else if (drawnHelpState == HelpState.JUMP)
             {
-                GUI.DrawTexture(new Rect(70, 20, helpHeight / jumpHelp.height * jumpHelp.width, helpHeight), jumpHelp);
-                GUI.DrawTexture(new Rect(70, 20 + helpHeight, helpHeight / mapHelp.height * mapHelp.width, helpHeight), mapHelp);
+                GUI.DrawTexture(new Rect(70, Screen.height - 2 * helpHeight - 160, helpHeight / jumpHelp.height * jumpHelp.width, helpHeight), jumpHelp);
+                GUI.DrawTexture(new Rect(70, Screen.height - helpHeight - 160, helpHeight / mapHelp.height * mapHelp.width, helpHeight), mapHelp);
             }
             if (drawnHelpState != HelpState.NONE)
             {
@@ -205,7 +205,7 @@ public class MainCameraGUI : MonoBehaviour
             }
             style.normal.textColor = GUI.color;
             if (drawnHelpState != HelpState.NONE)
-                GUI.Label(new Rect(20, 20 + 2 * helpHeight, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
+                GUI.Label(new Rect(20, Screen.height - 160, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
         }
     }
 }
