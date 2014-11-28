@@ -28,6 +28,8 @@ public class QuadcopterAI : MonoBehaviour
     private int targetWaypoint = 0;
 	private GameObject player;
 	private GameLogic gameLogic;
+    private Light torch;
+    private AIPath AI;
 
 	void Start () 
     {
@@ -39,7 +41,8 @@ public class QuadcopterAI : MonoBehaviour
                 propellers.Add(child);
         }
 		player = GameObject.FindWithTag("Player");
-		gameLogic = GameObject.FindWithTag("GameController").GetComponent<GameLogic>();
+        gameLogic = GameObject.FindWithTag("GameController").GetComponent<GameLogic>();
+        torch = transform.Find("GimbalArm1/GimbalArm2/GoPro/Spotlight").GetComponent<Light>();
 	}
 	
 	void Update () 
@@ -54,8 +57,7 @@ public class QuadcopterAI : MonoBehaviour
     public void OnAlarm()
     {
         flightState = FlightState.IN_PURSUIT;
-        Light light = transform.Find("GimbalArm1/GimbalArm2/GoPro/Spotlight").GetComponent<Light>();
-        light.color = Color.red;
+        torch.color = Color.red;
     }
 
     void UpdatePlaying()
@@ -93,13 +95,13 @@ public class QuadcopterAI : MonoBehaviour
 
     FlightState Pursue()
 	{
-		Vector3 target = player.transform.position;
-		Vector3 direction = target - transform.position;
-		direction.y = 0.0f;
-		if (direction.magnitude < catchDistance)
-		{
+        torch.transform.LookAt(player.transform);
+        Vector3 target = player.transform.position + new Vector3(0, 8.0f, 0);
+        Vector3 direction = target - transform.position;
+        if (direction.magnitude < catchDistance)
+        {
             return Hover();
-		}
+        }
 		direction.Normalize();
 		acceleration = accelerationMagnitude * direction;
         velocity += acceleration * Time.deltaTime;

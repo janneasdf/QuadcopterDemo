@@ -8,6 +8,8 @@ public class Guard : MonoBehaviour
     Animator animator;
     AIPath AI;
 
+    private float nextHeyStopTime;
+
 	void Start () 
     {
         player = GameObject.FindGameObjectWithTag(Tags.player);
@@ -15,10 +17,17 @@ public class Guard : MonoBehaviour
         animator = GetComponent<Animator>();
         AI = GetComponent<AIPath>();
         AI.target = player.transform;
+        nextHeyStopTime = 10.0f + Random.value * 5.0f; 
 	}
 	
 	void Update () 
     {
+        nextHeyStopTime -= Time.deltaTime;
+        if (nextHeyStopTime < 0 && gameLogic.gameState == GameState.PLAYING)
+        {
+            nextHeyStopTime = 10.0f + Random.value * 5.0f;
+            GetComponent<AudioSource>().Play();
+        }
         if (gameLogic.gameState == GameState.PLAYING)
         {
             AI.enabled = true;

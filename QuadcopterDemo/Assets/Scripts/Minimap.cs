@@ -82,12 +82,15 @@ public class Minimap : MonoBehaviour
         float aspectRatio = cwidth / cheight;
 
         // Draw tupla icon
-        Vector3 toTupla = tupla.position - transform.position;
-        Vector2 toTuplaOrtho = new Vector2((toTupla.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTupla.z + orthSize) / (orthSize * 2.0f));
-        float x = cx + cwidth * toTuplaOrtho.x;
-        float y = cy - cheight * toTuplaOrtho.y;
-        if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
-            GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);
+        if (tupla)
+        {
+            Vector3 toTupla = tupla.position - transform.position;
+            Vector2 toTuplaOrtho = new Vector2((toTupla.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTupla.z + orthSize) / (orthSize * 2.0f));
+            float x = cx + cwidth * toTuplaOrtho.x;
+            float y = cy - cheight * toTuplaOrtho.y;
+            if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
+                GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);
+        }
 
         // Draw player icon
         /*Vector3 toTarget = target.position - transform.position;
