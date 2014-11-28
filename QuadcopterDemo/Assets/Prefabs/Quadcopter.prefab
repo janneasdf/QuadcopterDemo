@@ -585,47 +585,47 @@ AudioSource:
       outSlope: -500.200928
       tangentMode: 0
     - time: .00400000019
-      value: .771293342
+      value: .536764681
       inSlope: -125.050232
       outSlope: -125.050232
       tangentMode: 0
     - time: .00800000038
-      value: .521293342
+      value: .286764711
       inSlope: -31.262558
       outSlope: -31.262558
       tangentMode: 0
     - time: .0160000008
-      value: .396293372
+      value: .161764711
       inSlope: -7.8156395
       outSlope: -7.8156395
       tangentMode: 0
     - time: .0320000015
-      value: .333793372
+      value: .0992647111
       inSlope: -1.95390987
       outSlope: -1.95390987
       tangentMode: 0
     - time: .064000003
-      value: .302543372
+      value: .0680147111
       inSlope: -.488477468
       outSlope: -.488477468
       tangentMode: 0
     - time: .128000006
-      value: .220672309
+      value: .0523897074
       inSlope: -.122119367
       outSlope: -.122119367
       tangentMode: 0
-    - time: .312603801
-      value: .162386626
+    - time: .256000012
+      value: .0445772074
       inSlope: -.0305298418
       outSlope: -.0305298418
       tangentMode: 0
-    - time: .5520944
-      value: .111161768
+    - time: .512000024
+      value: .0406709574
       inSlope: -.00763246045
       outSlope: -.00763246045
       tangentMode: 0
-    - time: .997641504
-      value: 0
+    - time: 1
+      value: .0387647077
       inSlope: -.00200079847
       outSlope: -.00200079847
       tangentMode: 0

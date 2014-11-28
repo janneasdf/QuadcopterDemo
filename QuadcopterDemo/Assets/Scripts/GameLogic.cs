@@ -35,13 +35,13 @@ public class GameLogic : MonoBehaviour
 	public void StartGame()
 	{
 		gameState = GameState.PLAYING;
-		directionArrow.target = item;
+        directionArrow.SetNewTarget(item);
 	}
 
 	public void CollectItem()
 	{
 		itemCollected = true;
-		directionArrow.target = goal;
+		directionArrow.SetNewTarget(goal);
         Transform wrench = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1/Bip001 Neck/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand/wrench");
         Transform tupla = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1/Bip001 Neck/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand/Tupla");
         wrench.renderer.enabled = false;
@@ -56,7 +56,8 @@ public class GameLogic : MonoBehaviour
         GameObject[] quadCopters = GameObject.FindGameObjectsWithTag("Quadcopter");
         foreach (GameObject quadCopter in quadCopters)
         {
-            quadCopter.GetComponent<QuadcopterAI>().OnAlarm();
+            if (quadCopter && quadCopter.GetComponent<QuadcopterAI>())
+                quadCopter.GetComponent<QuadcopterAI>().OnAlarm();
         }
         GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnAlarm();
 		// Spawn guards
@@ -86,7 +87,7 @@ public class GameLogic : MonoBehaviour
             gameState = GameState.BUSTED;
             GameObject.FindGameObjectWithTag(Tags.mainCamera).GetComponent<MainCameraGUI>().OnGameOver();
         }
-        directionArrow.target = null;
+        directionArrow.Clear();
     }
 
     void Start()
