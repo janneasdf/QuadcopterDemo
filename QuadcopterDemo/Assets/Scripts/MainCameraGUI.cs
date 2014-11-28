@@ -38,7 +38,8 @@ public class MainCameraGUI : MonoBehaviour
     bool controller = false;
     bool mapped = false;
     bool jumped = false;
-    private float candyTimer = 0;
+    private float timer = 0;
+
     void Start()
     {
         helpState = HelpState.MOVE;
@@ -88,14 +89,19 @@ public class MainCameraGUI : MonoBehaviour
         if (helpState == HelpState.JUMP && Input.GetAxis("Map") > 0)
             mapped = true;
 
-        if (helpState == HelpState.CANDY)
-            candyTimer += Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if (helpState == HelpState.MOVE && drawnHelpState == helpState && (distanceMoved > 15 || distanceLooked > 30) && fadeTimer == 0)
+        if (helpState == HelpState.MOVE && drawnHelpState == helpState && ((distanceMoved > 15 || distanceLooked > 30) || timer > 10) && fadeTimer == 0)
+        {
             helpState = HelpState.JUMP;
-        else if (helpState == HelpState.JUMP && drawnHelpState == helpState && fadeTimer == 0 && jumped && mapped)
+            timer = 0;
+        }
+        else if (helpState == HelpState.JUMP && drawnHelpState == helpState && fadeTimer == 0 && ((jumped && mapped) || timer > 10))
+        {
             helpState = HelpState.CANDY;
-        else if (helpState == HelpState.CANDY && candyTimer > 10)
+            timer = 0;
+        }
+        else if (helpState == HelpState.CANDY && timer > 10)
             helpState = HelpState.NONE;
 
         if (drawnHelpState != helpState)
@@ -204,8 +210,9 @@ public class MainCameraGUI : MonoBehaviour
                 GUI.color = new Color(1.0f, 1.0f, 1.0f);
             }
             style.normal.textColor = GUI.color;
+            style.fontSize = (int)(32.0f * Screen.height / 1080.0f);
             if (drawnHelpState != HelpState.NONE)
-                GUI.Label(new Rect(20, Screen.height - 160, 400, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
+                GUI.Label(new Rect(60, Screen.height - 160, 400 * Screen.height / 1080.0f, 140), "Follow the red arrow. Find the candy and return to where you started from.", style);
         }
     }
 }

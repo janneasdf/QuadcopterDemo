@@ -111,7 +111,7 @@ public class GameLogic : MonoBehaviour
 			return;
 		Vector3 delta = (goal.position - player.transform.position);
 		delta.y = 0;
-		if (delta.magnitude < 2.0f)
+		if (delta.magnitude < 4.0f)
         {
             EndGame(true);
 		}
