@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour 
+public class RigidController : MonoBehaviour 
 {
     public float pushPower = 2.0f;
 

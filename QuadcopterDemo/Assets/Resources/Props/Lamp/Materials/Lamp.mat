@@ -35,7 +35,7 @@ Material:
       data:
         first:
           name: _EmissionLM
-        second: 5
+        second: 50
     m_Colors:
       data:
         first:
