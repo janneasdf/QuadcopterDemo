@@ -21132,7 +21132,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 933035758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.3067932, y: .190758228, z: -42.6036835}
+  m_LocalPosition: {x: 73.7837219, y: .190758228, z: -31.1678886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1890925372}
@@ -26959,6 +26959,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 98349809}
     m_Modifications:
+    - target: {fileID: 11400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
+      propertyPath: waypoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -26999,6 +27003,22 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 52723333}
+    - target: {fileID: 11400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
+      propertyPath: waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 933035759}
+    - target: {fileID: 11400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
+      propertyPath: waypoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 2080266400}
+    - target: {fileID: 11400000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
+      propertyPath: waypoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1508628664}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f971ae9c251276c47851b7ca0145fd04, type: 2}
   m_RootGameObject: {fileID: 1332505809}
@@ -29226,6 +29246,7 @@ GameObject:
   - 33: {fileID: 1332505812}
   - 23: {fileID: 1332505811}
   - 114: {fileID: 1332505810}
+  - 82: {fileID: 1332505814}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: DirectionArrow
@@ -29245,7 +29266,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c07cb36593afe4caab87aaaec1a15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  waypoints:
+  - {fileID: 52723333}
+  - {fileID: 933035759}
+  - {fileID: 2080266400}
+  actualTarget: {fileID: 0}
 --- !u!23 &1332505811
 Renderer:
   m_ObjectHideFlags: 0
@@ -29287,6 +29312,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 98349809}
   m_RootOrder: 0
+--- !u!82 &1332505814
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332505809}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: e9f35ce2d9acde744ac6af0be73d87b0, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1001 &1333511112
 Prefab:
   m_ObjectHideFlags: 0
@@ -39972,6 +40055,7 @@ Transform:
   m_Children:
   - {fileID: 52723333}
   - {fileID: 933035759}
+  - {fileID: 2080266400}
   m_Father: {fileID: 1310932689}
   m_RootOrder: 4
 --- !u!1 &1892224447
@@ -43632,6 +43716,33 @@ Prefab:
   m_RootGameObject: {fileID: 647055011}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &2080266399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2080266400}
+  m_Layer: 0
+  m_Name: Waypoint3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2080266400
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2080266399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.2543678, y: .190758005, z: -46.0541496}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1890925372}
+  m_RootOrder: 2
 --- !u!1 &2082017601
 GameObject:
   m_ObjectHideFlags: 0

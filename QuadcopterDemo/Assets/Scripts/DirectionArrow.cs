@@ -34,6 +34,8 @@ public class DirectionArrow : MonoBehaviour {
         {
             if ((target.position - transform.position).magnitude < 10.0f)
             {
+                if (target != actualTarget)
+                    AudioSource.PlayClipAtPoint(audio.clip, transform.position);
                 currentWaypoint += increment;
                 if (currentWaypoint >= waypoints.Length || currentWaypoint < 0)
                     target = actualTarget;
