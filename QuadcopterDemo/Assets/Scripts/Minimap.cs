@@ -20,6 +20,7 @@ public class Minimap : MonoBehaviour
 	private float orthSizeMin = 20;
 	private float orthSizeMax = 70; // This should change according to map size
     private Texture tuplaIcon;
+    private Texture playerIcon;
     private Camera[] cameras;
 
 	void Start() 
@@ -30,6 +31,7 @@ public class Minimap : MonoBehaviour
 		RectSmall = new Vector4(camera.rect.x, camera.rect.y, camera.rect.width, camera.rect.height);
 		orthSize = orthSizeMin;
         tuplaIcon = Resources.Load<Texture>("GUI/Tupla");
+        playerIcon = Resources.Load<Texture>("GUI/Player");
 
         cameras = GameObject.FindObjectsOfType<Camera>();
 	}
@@ -89,15 +91,18 @@ public class Minimap : MonoBehaviour
             float x = cx + cwidth * toTuplaOrtho.x;
             float y = cy - cheight * toTuplaOrtho.y;
             if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
-                GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);
+                GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth * Screen.height / (float)Screen.width, iconHeight), tuplaIcon);
         }
 
         // Draw player icon
-        /*Vector3 toTarget = target.position - transform.position;
-        Vector2 toTargetOrtho = new Vector2((toTarget.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTarget.z + orthSize) / (orthSize * 2.0f));
-        x = cx + cwidth * toTargetOrtho.x;
-        y = cy - cheight * toTargetOrtho.y;
-        if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
-            GUI.DrawTexture(new Rect(x - iconWidth / 2, y - iconHeight / 2, iconWidth, iconHeight), tuplaIcon);*/
+        if (target)
+        {
+            Vector3 toTarget = target.position - transform.position;
+            Vector2 toTargetOrtho = new Vector2((toTarget.x + aspectRatio * orthSize) / (aspectRatio * orthSize * 2.0f), (toTarget.z + orthSize) / (orthSize * 2.0f));
+            float x = cx + cwidth * toTargetOrtho.x;
+            float y = cy - cheight * toTargetOrtho.y;
+            if (x > cx && x < cx + cwidth && y > cy - cheight && y < cy)
+                GUI.DrawTexture(new Rect(x - iconWidth * Screen.height / (float)Screen.width / 2, y - iconHeight / 2, iconWidth * Screen.height / (float)Screen.width, iconHeight), playerIcon);
+        }
     }
 }
